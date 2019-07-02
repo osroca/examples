@@ -1,0 +1,56 @@
+(define (unsupervised-batch dataset-id name model-type batch-type . params)
+  (log-info (str "Creating " model-type " and its " batch-type))
+  (try
+   (create batch-type
+           dataset-id
+           (create model-type dataset-id (or (get params "model" false) {}))
+           (merge (or (get params "batch" false) {})
+                  {"name" (str name " Feature Generation: " batch-type)
+                   "output_dataset" true}))
+   (catch e
+     (log-warn "Could not create the batch-type: " e))))
+
+(define (cluster-feature-gen dataset-id name)
+  (let (params {"model" cluster-params})
+    (unsupervised-batch dataset-id name "cluster" "batchcentroid" params)))
+
+(define (anomaly-feature-gen dataset-id name)
+  (let (params {"model" anomaly-params})
+    (unsupervised-batch dataset-id name "anomaly" "batchanomalyscore" params)))
+
+(define (topic-feature-gen dataset-id name)
+  (let (params {"model" topic-params})
+    (unsupervised-batch dataset-id
+                        name
+                        "topicmodel"
+                        "batchtopicdistribution"
+                        params)))
+
+(define (pca-feature-gen dataset-id name)
+  (let (params {"model" pca-params})
+    (unsupervised-batch dataset-id name "pca" "batchprojection" params)))
+
+(define (batch-res-output-dataset res-id)
+  (if res-id
+    (get (fetch (wait res-id)) "output_dataset_resource")))
+
+(define (feature-generation dataset-id)
+  ;; Aqui habria que hacer juxtapose pasando juxtapose_input_fields
+  (let (name (get (fetch (wait dataset-id)) "name")
+        cluster-fields (cluster-feature-gen dataset-id name)
+        anomaly-fields (anomaly-feature-gen dataset-id name)
+        topic-fields (topic-feature-gen dataset-id name)
+        pca-fields (pca-feature-gen dataset-id name)
+        all-datasets [dataset-id
+                      (batch-res-output-dataset cluster-fields)
+                      (batch-res-output-dataset anomaly-fields)
+                      (batch-res-output-dataset topic-fields)
+                      (batch-res-output-dataset pca-fields)])
+  (update
+   (merge-datasets (filter (lambda (n) n) all-datasets)
+                   {"juxtapose" true
+                    "project" "project/5cbed219eba31d2ac8000df0"
+                    "name" (str name ": Extended dataset")})
+   {"objective_field" {"id" (dataset-get-objective-id dataset-id)}})))
+
+(define extended-dataset (feature-generation dataset-id))
