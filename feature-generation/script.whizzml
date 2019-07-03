@@ -59,8 +59,6 @@
             ((fetch (wait (res-map "test"))) "output_dataset_resource"))})
 
 (define (create-output-dataset ds-list name objective-id)
-  (log-info "ds-list")
-  (log-info ds-list)
   (update
    (merge-datasets (filter (lambda (n) n) ds-list)
                    {"juxtapose" true
