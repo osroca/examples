@@ -11,7 +11,7 @@
       },
       {
           "name": "test-dataset-id",
-          "type": "dataset-id",
+          "type": "string",
           "description": "Test dataset id to be extended (e.g. dataset/dataset/5d1c7f7adb8b1d72680002f4)"
       },
       {
