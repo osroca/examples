@@ -7,7 +7,12 @@
       {
           "name": "dataset-id",
           "type": "dataset-id",
-          "description": "Dataset to be extended"
+          "description": "Train dataset to be extended"
+      },
+      {
+          "name": "test-dataset-id",
+          "type": "dataset-id",
+          "description": "Test dataset id to be extended (e.g. dataset/dataset/5d1c7f7adb8b1d72680002f4)"
       },
       {
           "name": "cluster-params",
@@ -36,9 +41,14 @@
   ],
   "outputs": [
       {
-          "name": "extended-dataset",
+          "name": "extended-dataset-train",
           "type": "dataset-id",
-          "description": "Dataset extended with the new generated features"
+          "description": "Train dataset extended with the new generated features"
+      },
+      {
+          "name": "extended-dataset-test",
+          "type": "dataset-id",
+          "description": "Test dataset extended with the new generated features"
       }
   ]
 }

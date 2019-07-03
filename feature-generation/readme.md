@@ -16,11 +16,13 @@ unsupervised models.
 
 The **inputs** for the script are:
 
-* `dataset-id`: (dataset-id) Dataset ID for the dataset to be extended
+* `dataset-id`: (dataset-id) Dataset ID for the train dataset to be extended
+* `test-dataset-id`: (dataset-id) **optional** Dataset ID for the test dataset to be extended
 * `cluster-params`: (map) **optional** Params of the cluster model. Leave blank for default 1-Click cluster
 * `anomaly-params`: (map) **optional** Params of the anomaly detector. Leave blank for default 1-Click anomaly detector
 * `topic-params`: (map) **optional** Params of the topic model. Leave blank for default 1-Click topic model
 * `pca-params`: (map) **optional** Params of the PCA model. Leave blank for default 1-Click PCA
 
 The **outputs** for the script are:
-* `extended-dataset`: (dataset-id) Dataset ID for the extended dataset
+* `extended-dataset-train`: (dataset-id) Dataset ID for the extended train dataset
+* `extended-dataset-test`: (dataset-id) Dataset ID for the extended test dataset
