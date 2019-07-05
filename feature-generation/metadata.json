@@ -38,6 +38,12 @@
           "type": "map",
           "default": {},
           "description": "Params of the PCA model. Leave blank for default 1-Click PCA"
+      },
+      {
+          "name": "este-no-sale",
+          "type": "map",
+          "default": {},
+          "description": "Params of the PCA model. Leave blank for default 1-Click PCA"
       }
   ],
   "outputs": [

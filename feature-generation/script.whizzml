@@ -14,7 +14,7 @@
    (catch e
      (log-warn "Could not create the " batch-type ": " e))))
 
-
+(define oscar-out oscar-in)
 
 (define (cluster-feature-gen ds-id test-ds name)
   (let (params {"model" cluster-params})
